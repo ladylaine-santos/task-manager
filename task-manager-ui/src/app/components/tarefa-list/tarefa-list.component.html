@@ -1,0 +1,67 @@
+<div class="container-todolist">
+  <header>
+    <h1><i class="bi bi-check2-all"></i> Task Manager 2026</h1>
+  </header>
+
+  <!-- Card de Criação de Tarefa -->
+  <section class="card-input">
+    <div class="input-group">
+      <input type="text" [(ngModel)]="novaTarefa.titulo" placeholder="O que precisa ser feito?">
+      <textarea [(ngModel)]="novaTarefa.descricao" placeholder="Adicione uma descrição (opcional)"></textarea>
+      <button (click)="adicionar()" [disabled]="!novaTarefa.titulo">
+        Adicionar Tarefa
+      </button>
+    </div>
+  </section>
+
+  <!-- Listagem de Tarefas -->
+  <section class="lista-tarefas">
+      <div *ngFor="let item of tarefas()" class="card-tarefa" [class.border-concluida]="item.status === 'CONCLUIDA'">
+
+        <!-- LÓGICA DE ALTERNÂNCIA: EDIÇÃO vs VISUALIZAÇÃO -->
+        <ng-container *ngIf="idTarefaSendoEditada !== item.id; else modoEdicao">
+
+          <!-- MODO VISUALIZAÇÃO -->
+          <div class="conteudo">
+            <h3 [class.texto-concluido]="item.status === 'CONCLUIDA'">{{ item.titulo }}</h3>
+            <p>{{ item.descricao }}</p>
+            <div class="insight-box" *ngIf="item.insightMotivacional">
+              <small><strong>Insight:</strong> {{ item.insightMotivacional }}</small>
+            </div>
+          </div>
+
+          <div class="acoes">
+            <span class="badge" [ngClass]="item.status.toLowerCase()">{{ item.status }}</span>
+            <div class="botoes">
+              <!-- BOTÃO ALTERAR -->
+              <button *ngIf="item.status !== 'CONCLUIDA'" (click)="iniciarEdicao(item)" class="btn-alterar">
+                Alterar
+              </button>
+              <button *ngIf="item.status !== 'CONCLUIDA'" (click)="concluir(item.id!)" class="btn-concluir">
+                Concluir
+              </button>
+              <button *ngIf="item.status == 'PENDENTE'" (click)="iniciar(item.id!)" class="btn-iniciar">
+                Iniciar
+              </button>
+              <button (click)="remover(item.id!)" class="btn-excluir">
+                Excluir
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- MODO EDIÇÃO (Template que aparece ao clicar em Alterar) -->
+        <ng-template #modoEdicao>
+          <div class="edit-form" *ngIf="tarefaEmEdicao">
+            <input [(ngModel)]="tarefaEmEdicao.titulo" class="edit-input">
+            <textarea [(ngModel)]="tarefaEmEdicao.descricao" class="edit-textarea"></textarea>
+            <div class="botoes-edicao">
+              <button (click)="salvarAlteracao()" class="btn-salvar">Salvar</button>
+              <button (click)="cancelarEdicao()" class="btn-cancelar">Cancelar</button>
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+  </section>
+</div>
