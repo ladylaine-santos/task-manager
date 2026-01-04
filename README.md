@@ -37,20 +37,44 @@ git clone https://github.com/ladylaine-santos/task-manager.git
 cd task-manager
 ````
 
-2. Iniciar o Banco de Dados (Docker)
-   
-Este comando sobe apenas o SQL Server, isolando a infraestrutura do banco:
+2. Iniciar o Banco de Dados (Docker):
+Caso esteja usando windos execute o docker desktop
 
+faça o arquivo docker-compose.yml conforme:
+````yml
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: database
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=[Seu!PasswdrAqui]
+      - MSSQL_PID=Developer
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - taskmaster-network
+    restart: always
+
+networks:
+  taskmaster-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+    driver: local
+
+````
+Este comando sobe apenas o SQL Server, isolando a infraestrutura do banco:
 
 ````Bash
 docker-compose up -d database
 ````
-
 3. Executar o Backend (Java)
   
 Certifique-se de estar na pasta do backend e execute:
-
-
 
 ````Bash
 cd taskManager-backend
