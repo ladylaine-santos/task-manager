@@ -1,0 +1,121 @@
+.container-todolist {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+    h1 { color: #2c3e50; margin-bottom: 5px; }
+    p { color: #7f8c8d; }
+  }
+
+.btn-alterar { background: #f1c40f; color: #2c3e50; } // Amarelo para edição
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+
+  .edit-input { padding: 8px; font-weight: bold; border: 1px solid #3498db; }
+  .edit-textarea { padding: 8px; border: 1px solid #3498db; min-height: 60px; }
+
+  .botoes-edicao {
+    display: flex;
+    gap: 10px;
+    .btn-salvar { background: #2ecc71; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; }
+    .btn-cancelar { background: #95a5a6; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; }
+  }
+}
+
+  .card-input {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      input, textarea {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+
+      button {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        &:hover { background: #2980b9; }
+        &:disabled { background: #bdc3c7; cursor: not-allowed; }
+      }
+    }
+  }
+
+  .card-tarefa {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-left: 5px solid #3498db;
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+    &.border-concluida { border-left-color: #2ecc71; }
+
+    .texto-concluido { text-decoration: line-through; color: #95a5a6; }
+
+    .insight-box {
+      margin-top: 10px;
+      padding: 8px;
+      background: #fff9e6;
+      border-radius: 4px;
+      color: #d35400;
+    }
+
+    .acoes {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+
+      .badge {
+        font-size: 10px;
+        padding: 4px 8px;
+        border-radius: 12px;
+        text-transform: uppercase;
+        &.pendente { background: #e67e22; color: white; }
+        &.em_andamento { background: #ffbf00; color: white; }
+        &.concluida { background: #2ecc71; color: white; }
+      }
+
+      .botoes {
+        display: flex;
+        gap: 5px;
+        button {
+          padding: 6px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+        }
+        .btn-concluir { background: #2ecc71; color: white; }
+        .btn-excluir { background: #e74c3c; color: white; }
+        .btn-iniciar { background: #191970; color: white; }
+
+      }
+    }
+  }
+}
