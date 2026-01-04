@@ -34,7 +34,7 @@ jobs:
       - name: Build and Test with Maven
         run: |
           cd taskManager-backend
-          mvn clean verify
+          mvn clean verify -DargLine="-XX:+EnableDynamicAgentLoading"
         env:
           # Informa ao Spring para usar o banco do container acima
           SPRING_DATASOURCE_URL: jdbc:sqlserver://localhost:1433;databaseName=master;trustServerCertificate=true
