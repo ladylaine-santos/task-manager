@@ -1,0 +1,61 @@
+name: Java & Angular CI/CD
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  # JOB 1: Validar o Backend Java
+  backend-build:
+    runs-on: ubuntu-latest
+    
+    # Sobe um SQL Server real para os testes de integração passarem no GitHub
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          MSSQL_SA_PASSWORD: Dev#1234
+        ports:
+          - 1433:1433
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and Test with Maven
+        run: |
+          cd taskManager-backend
+          mvn clean verify
+        env:
+          # Informa ao Spring para usar o banco do container acima
+          SPRING_DATASOURCE_URL: jdbc:sqlserver://localhost:1433;databaseName=master;trustServerCertificate=true
+          SPRING_DATASOURCE_USERNAME: sa
+          SPRING_DATASOURCE_PASSWORD: Dev#1234
+
+  # JOB 2: Validar o Frontend Angular
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: task-manager-ui/package-lock.json
+
+      - name: Install dependencies and Build Angular
+        run: |
+          cd task-manager-ui
+          npm install
+          npm run build -- --configuration production
